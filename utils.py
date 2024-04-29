@@ -31,6 +31,9 @@ def load_json_file(filename):
     return config    
 
 def get_server_ip():
+    # Temporary Hack to deploy to streamlit cloud
+    return st.secrets["ip_addr"]
+
     #Load server IP from the config.json
     config = load_json_file(filename='config.json')
 
