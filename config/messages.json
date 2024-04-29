@@ -1,0 +1,239 @@
+{
+        "TITLE_MESSAGES": 
+        {
+            "CALCULATE_CVD_PAGE":
+                {
+                    "English": "Heart Risk Score Calculator",
+                    "Deutsch": "Rechner für den Herzrisiko-Score"
+
+                }           
+        },
+        "MY_DETAILS_PAGE":
+        {
+            "TITLE":
+                {
+                "English": "My Heart Health Details",
+                "Deutsch": "Details zu meiner Herzgesundheit"
+
+                },
+            "DISPLAY_USER_DETAILS":
+                {
+                    "English": "Here are the current details of user {}",
+                    "Deutsch": "Hier sind die aktuellen Details von Benutzer {}"
+                }           
+        },
+        "HEALTHBOT_PAGE":
+        {
+            "TITLE":
+                {
+                    "English": "Heart Health Bot Page",
+                    "Deutsch": "Herzgesundheits-Bot-Seite"
+                },
+            "BOT_MSG":
+                {
+                    "English": "Enter your query to the bot",
+                    "Deutsch": "Geben Sie Ihre Anfrage an den Bot ein"
+                },
+            "BOT_BUTTON_MSG":
+                {
+                    "English": "AskBot",
+                    "Deutsch": "Frag Bot"
+                }
+        },
+        "DIET_WORKOUT_PAGE":
+        {
+            "TITLE":
+                {
+                    "English": "Personalized Recommendation for Diet and Workout",
+                    "Deutsch": "Personalisierte Empfehlung für Diät und Training"
+                },
+            "PERSONAL_RECOMMENDATION_MESSAGE":
+                {
+                    "English": "Personal Recommendation",
+                    "Deutsch": "Persönliche Empfehlung"
+                },
+            "DIET_RECOMMENDATION_MESSAGE":
+                {
+                    "English": "Food Recommendation",
+                    "Deutsch": "Essensempfehlung"
+                },
+            "WORKOUT_RECOMMENDATION_MESSAGE":
+                {
+                    "English": "Workout Recommendation",
+                    "Deutsch": "Trainingsempfehlung"
+                }
+        },
+        "WORKOUT_GUIDE_PAGE":
+        {
+            "TITLE":
+                {
+                    "English": "Workout Guide"
+                }            
+        },
+        "WORKOUT_LOGGER_PAGE":
+        {
+            "TITLE":
+                {
+                    "English": "Log Your Exercise/Workout Results Here",
+                    "Deutsch": "Protokollieren Sie hier Ihre Übungs-/Trainingsergebnisse"
+                },
+            "CYCLING":
+                {
+                    "English": "Cycling Exercise",
+                    "Deutsch": "Fahrradübung"
+                },
+            "WALKING":
+                {
+                    "English": "Walking Exercise",
+                    "Deutsch": "Gehübung"
+                },
+            "SWIMMING":
+                {
+                    "English": "Swimming Exercise",
+                    "Deutsch": "Schwimmübung"
+                },
+            "RUNNING":
+                {
+                    "English": "Running Exercise",
+                    "Deutsch": "Laufübung"
+                },
+            "AEROBICS":
+                {
+                    "English": "Aerobics Exercise",
+                    "Deutsch": "Aerobic-Übungen"
+                },
+            "STRENGTH_TRAINING":
+                {
+                    "English": "Strength Training Exercise",
+                    "Deutsch": "Krafttrainingsübung"
+                },
+            "YOGA":
+                {
+                    "English": "Yoga Exercise",
+                    "Deutsch": "Yoga-Übung"
+                },
+            "FITBIT":
+                {
+                    "English": "Fitbit Logging",
+                    "Deutsch": "Fitbit-Protokollierung"
+                },
+            "IMAGE_UPLOAD":
+                {
+                    "English": "Upload picture of workout details",
+                    "Deutsch": "Laden Sie ein Bild mit Trainingsdetails hoch"
+                },
+            "WIP_MSG":
+                {
+                    "English": "Work in Progress",
+                    "Deutsch": "Krafttrainingsübung"
+                },
+            "DURATION_MSG":
+                {
+                    "English": "Enter duration in minutes",
+                    "Deutsch": "Geben Sie die Dauer in Minuten ein"
+                },
+            "EXERCISE_NOTES_MSG":
+                {
+                    "English": "Add (optional) exercise notes",
+                    "Deutsch": "Fügen Sie (optional) Übungsnotizen hinzu"
+                },
+            "CYCLING_TYPE_MSG":
+                {
+                    "English": "Select Cycling Type",
+                    "Deutsch": "Wählen Sie den Fahrradtyp aus"
+                },
+            "CYCLING_DIST_MSG":
+                {
+                    "English": "Enter distance cycled",
+                    "Deutsch": "Geben Sie die Raddistanz ein"
+                },
+            "LOG_CYCLING_MSG":
+                {
+                    "English": "Log Cycling Exercise",
+                    "Deutsch": "Log-Cycling-Übung"
+                },
+            "WALKING_TYPE_MSG":
+                {
+                    "English": "Select Walking Type",
+                    "Deutsch": "Wählen Sie den Gehtyp aus"
+                },
+            "WALKING_DIST_MSG":
+                {
+                    "English": "Enter distance walked",
+                    "Deutsch": "Geben Sie die zurückgelegte Distanz ein"
+                },
+            "LOG_WALKING_MSG":
+                {
+                    "English": "Log Walking Exercise",
+                    "Deutsch": "Log-Walking-Übung"
+                },
+            "SWIMMING_TYPE_MSG":
+                {
+                    "English": "Select swimming type",
+                    "Deutsch": "Schwimmtyp auswählen"
+                },
+            "LOG_SWIMMING_MSG":
+                {
+                    "English": "Log Swimming Exercise",
+                    "Deutsch": "Log-Schwimmübung"
+                },
+            "RUNNING_TYPE_MSG":
+                {
+                    "English": "Select running type",
+                    "Deutsch": "Laufart auswählen"
+                },
+            "RUNNING_DIST_MSG":
+                {
+                    "English": "Enter distance jogged",
+                    "Deutsch": "Geben Sie die Laufdistanz ein"
+                },
+            "LOG_RUNNING_MSG":
+                {
+                    "English": "Log Running Exercise",
+                    "Deutsch": "Log-Laufübung"
+                },
+            "AEROBICS_TYPE_MSG":
+                {
+                    "English": "Select aerobics type",
+                    "Deutsch": "Wählen Sie den Aerobic-Typ"
+                },
+            "LOG_AEROBICS_MSG":
+                {
+                    "English": "Log Aerobics Exercise",
+                    "Deutsch": "Log-Aerobic-Übung"
+                },
+            "YOGA_TYPE_MSG":
+                {
+                    "English": "Select yoga type",
+                    "Deutsch": "Yoga-Typ auswählen"
+                },
+            "LOG_YOGA_MSG":
+                {
+                    "English": "Log Yoga Exercise",
+                    "Deutsch": "Log-Yoga-Übung"
+                }
+        },
+        "ERROR_MESSAGES":
+        {
+            "USER_NOT_LOGGED_IN":
+                {
+                    "English": "You have not logged in; Please login and then come to this page",
+                    "Deutsch": "Sie sind nicht angemeldet; Bitte melden Sie sich auf der App-Seite (in der Seitenleiste) an und gelangen Sie dann zu dieser Seite"
+                },
+            "SERVER_DOWN":
+                {
+                    "English": "Server is down or not reachable. Please reach out to Engineering Team",
+                    "Deutsch": "Der Server ist ausgefallen oder nicht erreichbar. Bitte wenden Sie sich an das Engineering-Team"
+                },
+            "USER_DETAILS_NOT_AVAILABLE":
+                {
+                    "English": "User Details does not exist. Please select CalculateHeartHealth in the HeartHealthMenu options on the left",
+                    "Deutsch": "Benutzerdetails sind nicht vorhanden. Bitte wählen Sie CalculateHeartHealth in den HeartHealthMenu-Optionen auf der linken Seite aus"
+                },
+            "GENERIC_ERROR":
+                {
+                    "English": "Generic Error. Please reach out to Engineering Team",
+                    "Deutsch": "Allgemeiner Fehler. Bitte wenden Sie sich an das Engineering-Team"
+                }           
+        }
+    }
