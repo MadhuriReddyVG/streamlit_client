@@ -31,7 +31,7 @@ def load_json_file(filename):
     return config    
 
 def get_server_ip():
-    st.write("IP ADDR: ", st.secrets["ip_addr"])
+    #st.write("IP ADDR: ", st.secrets["ip_addr"])
 
     # Temporary Hack to deploy to streamlit cloud
     return st.secrets["ip_addr"]
