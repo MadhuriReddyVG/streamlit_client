@@ -1,0 +1,134 @@
+import user_authentication
+import sys
+sys.path.append('../')
+from utils import start_display_wip, stop_display_wip, get_server_ip
+import streamlit as st
+import requests
+import logging
+import logging.config
+import json
+import pandas as pd
+import plotly.express as px
+import cv2
+import numpy as np
+
+#TODO: These need to be moved to a config file
+VIDEO_BASE_PATH="./data/"
+# Path to the pre-recorded video
+PRE_REC_VIDEO_PATH=VIDEO_BASE_PATH+"default_hrv_video.mp4"
+# Path to captured video
+CAPTURED_VIDEO_PATH=VIDEO_BASE_PATH+"captured_hrv_video.mp4"
+
+def playback_recorded_video(video_path):
+    st.header("Recorded Video Playback")
+
+    video_file = open(video_path, 'rb')
+    video_bytes = video_file.read()
+    st.video(video_bytes)
+  
+
+def capture_video(video_path):
+    st.title("Webcam Video Recorder")
+
+    # OpenCV VideoCapture object
+    cap = cv2.VideoCapture(0)
+
+    # Check if the webcam is opened successfully
+    if not cap.isOpened():
+        st.error("Error: Unable to open webcam.")
+        return
+
+    # Display a placeholder for the video stream
+    video_placeholder = st.empty()
+
+    # Create a VideoWriter object to save the video
+    width, height = int(cap.get(3)), int(cap.get(4))
+    out = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*"mp4v"), 20.0, (width, height))
+
+    count = 0
+
+    # Start capturing and recording
+    #recording = st.checkbox("Start Recording")
+    recording = True
+    while recording:
+        ret, frame = cap.read()
+        if not ret:
+            st.error("Error: Failed to capture frame.")
+            break
+
+        # Display the current frame
+        video_placeholder.image(frame, channels="BGR", use_column_width=True)
+
+        # Write the frame to the video file
+        out.write(frame)
+
+        # Check if the user stopped recording
+        #recording = st.checkbox("Start Recording")
+
+        count = count + 1
+        if count > 300:
+            recording = False
+
+    # Release the VideoCapture and VideoWriter objects
+    cap.release()
+    out.release()
+
+    st.success("Recording complete! Check the output.mp4 file.")
+
+def send_hrv_calc_request(video_path):
+    files = {'video': open(video_path, 'rb')}
+
+    progress_bar, status_text = start_display_wip("Calculating HRV")
+
+    # Calculate HRV
+    server_address = get_server_ip()
+    url=f"http://{server_address}:5000/hearthealth_server_HRV"
+    response = requests.post(url, files=files)
+    try:
+        response_json = json.loads(response.content.decode("utf-8"))
+        st.write('Heart Rate Variability: ', response_json['bpmES'])
+        logging.debug('hrv resonse status: {}'.format(response_json['result']))
+        logging.debug('hrv bpmES: {}'.format(response_json['bpmES']))
+        logging.debug("hrv bpmES length: {}".format(len(response_json['bpmES'])))
+    except:
+        logging.debug('Failed in HTTP request to HRV calculation')
+        return response
+    
+    stop_display_wip(progress_bar, status_text)
+    
+    #x = [1, 2, 3, 4, 5, 6, 7, 8]
+    x = list(range(1, len(response_json['bpmES'])+1))
+    df = pd.DataFrame({'Y': response_json['bpmES'], 'X': x})
+    #fig = px.line(df, x="year", y="lifeExp", title='Life expectancy in Canada')
+    fig = px.line(df, x="X", y="Y", title='BPM')
+    fig.update_xaxes(minor=dict(ticks="inside", showgrid=True))
+    st.plotly_chart(fig, theme="streamlit")
+
+def calculate_hrv():
+    st.title('Heart Rate Variability Calculation')
+
+    if (user_authentication.myusername == None) or (user_authentication.mypassword == None):
+        st.error("You have not logged in; Please login from the app page (in the sidebar) and then come to this page")
+        return
+    
+     # Display icons for choices
+    live_video_capture = "🎥 Live Video"
+    recorded_video_playback = "📹 Recorded Video"
+
+    # User choice between live video and recorded video
+    choice = st.radio("Select an option:", [live_video_capture, recorded_video_playback], index=None)
+    logging.debug("choice = {}".format(choice))
+
+    if choice == live_video_capture:
+        st.write("Selected Live Video Capture")
+        video_path = CAPTURED_VIDEO_PATH
+        capture_video(video_path)        
+    elif choice == recorded_video_playback:
+        st.write("Selected recorded Video Capture")
+        video_path = PRE_REC_VIDEO_PATH
+        playback_recorded_video(video_path)
+    if choice is not None:
+        send_hrv_calc_request(video_path)
+
+if __name__ == "__main__":
+     calculate_hrv()

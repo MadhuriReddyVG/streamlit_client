@@ -213,6 +213,35 @@
                     "Deutsch": "Log-Yoga-Übung"
                 }
         },
+        "FITBIT_PAGE":
+        {
+            "TITLE":
+                {
+                    "English": "Fitbit Integration Page",
+                    "Deutsch": "Fitbit-Integrationsseite"
+                },
+            "SHOW_SLEEP_PATTERN":
+                {
+                    "English": "Slow Sleep Pattern and Resting Heart Rate from Fitbit Database",
+                    "Deutsch": "Langsames Schlafmuster und Ruheherzfrequenz aus der Fitbit-Datenbank"
+                }
+        },
+        "HEARTHEALTH_QUIZ_PAGE":
+        {
+            "TITLE":
+                {
+                    "English": "Heart Health Quiz",
+                    "Deutsch": "Herzgesundheitsquiz"
+                }
+        },
+        "WORKOUT_TRACKER_PAGE":
+        {
+            "TITLE": 
+                {
+                    "English": "Your Workout Dashboard",
+                    "Deutsch": "Ihr Trainings-Dashboard"
+                }
+        },
         "ERROR_MESSAGES":
         {
             "USER_NOT_LOGGED_IN":
@@ -234,6 +263,11 @@
                 {
                     "English": "Generic Error. Please reach out to Engineering Team",
                     "Deutsch": "Allgemeiner Fehler. Bitte wenden Sie sich an das Engineering-Team"
+                },
+            "INVALID_CREDENTIALS":
+                {
+                    "English": "Invalid Username or Password or Token",
+                    "Deutsch": "Ungültiger Benutzername, Passwort oder Token"
                 }           
         }
     }

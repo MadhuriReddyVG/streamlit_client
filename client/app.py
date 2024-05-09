@@ -4,19 +4,25 @@ from interface.interface import signup_user, login_user, logout_user
 import user_preferences
 import logging 
 import logging.config
+from utils import get_error_reason
+import json
 
 def main():
 	# Set the logging framework
-	logging.config.fileConfig(fname='config.ini', disable_existing_loggers=False)
+	logging.config.fileConfig(fname='config/config.ini', disable_existing_loggers=False)
 	# Get the logger specified in the file
 	logger = logging.getLogger(__name__)
 	logger.debug('This is a debug message')
 
-	lang_menu = ["English","Deutsch"]
-	lang_choice = st.sidebar.selectbox("Language", lang_menu)
-	user_preferences.mylanguage = lang_choice
+	# Load messages json file
+	with open('config/messages.json', 'r', encoding='utf-8') as file:
+		messages_data = json.load(file) 
 
-	if lang_choice == "English":
+	lang_menu = ["English","Deutsch"]
+	language = st.sidebar.selectbox("Language", lang_menu)
+	user_preferences.mylanguage = language
+
+	if language == "English":
 		st.write("# Welcome to Heart Health App! 👋") 
 		st.markdown(
 			"""
@@ -38,16 +44,18 @@ def main():
 			st.subheader("Login Section")
 			username = st.sidebar.text_input("User Name")
 			password = st.sidebar.text_input("Password",type='password')
+			token = st.sidebar.text_input("token",type='password')
+			user_preferences.username = username
 			if st.sidebar.checkbox("Login"):
-				result, hashed_pwd = login_user(username=username, password=password)
-				if result == 'STATUS_OK':
-					#user_preferences.user_loggedin = True
-					user_preferences.username = username
+				result, hashed_pwd = login_user(username=username, password=password, token=token)
+				if result == 'STATUS_OK':					
 					user_preferences.hashed_pwd = hashed_pwd
 					st.success("Logged In as {}".format(username))					
-				else:
-					logger.warning("Incorrect Username/Password in main app")
-					st.warning("Incorrect Username/Password")
+				else:					
+					error_reason =  get_error_reason(result=result)
+					nouser_details_text = messages_data['ERROR_MESSAGES'][error_reason][language]
+					logger.warning(nouser_details_text)
+					st.warning(nouser_details_text)
 		elif choice == "Logout":
 				username = user_preferences.username
 				logging.debug('Logging out the user {}'.format(username))
@@ -63,16 +71,17 @@ def main():
 		elif choice == "SignUp":
 			st.subheader("Create New Account")
 			new_user = st.text_input("Username")
-			new_password = st.text_input("Password",type='password')	
+			new_password = st.text_input("Password",type='password')
+			token = st.text_input("token",type='password')	
 			if st.button("Signup"):
-				result = signup_user(username=new_user, password=new_password)
+				result, message = signup_user(username=new_user, password=new_password, token=token)
 				if result == 'STATUS_OK':
 					st.success("You have successfully created a valid Account")
 					st.info("Go to Login Menu to login")
 				else:
-					logger.warning("Username already Exists. Try with a different  Username in main app")
-					st.warning("Username already Exists. Try with a different  Username in main app")
-	elif lang_choice == "Deutsch":
+					logger.warning(message)
+					st.warning(message)
+	elif language == "Deutsch":
 		st.write("# Willkommen in der Herzgesundheitsapp! 👋")
 		st.markdown(
 			"""
@@ -116,7 +125,7 @@ def main():
 			new_password = st.text_input("Passwort",type='password')
 
 			if st.button("Melden"):
-				result = signup_user(username=new_user, password=new_password)
+				result, message = signup_user(username=new_user, password=new_password)
 				if result == 'STATUS_OK':
 					st.success("Sie haben erfolgreich ein gültiges Konto erstellt")
 					st.info("Gehen Sie zum Anmeldemenü, um sich anzumelden")

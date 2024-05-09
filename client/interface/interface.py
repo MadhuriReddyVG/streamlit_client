@@ -5,21 +5,22 @@ import logging.config
 
 from utils import get_server_ip
 
-def signup_user(username: str, password: str) -> str:
+def signup_user(username: str, password: str, token: str) -> str:
     """
     Send username, password from the client to the server for signing up and return if signing up is successful or not
 
     Args:
     - username: The username provided by the user to the client application.
     - password: The password provided by the user to the client application.
+    - token: The unique token provided by the Engineering team
 
     Returns:
     - "STATUS_OK" if successful 
     - "STATUS_FAIL" if user already exists
     """
 
-    # Create the payload with the username and the password
-    payload = {"username": username, "password": password}
+    # Create the payload with the username, password and the token
+    payload = {"username": username, "password": password, "token": token}
 
     # Prepare the server url
     server_address = get_server_ip()
@@ -35,20 +36,22 @@ def signup_user(username: str, password: str) -> str:
     except requests.exceptions.RequestException as e:
         #st.error('Failed in HTTP request to logging user credentials: Check if the server is running')
         logging.error('Failed in HTTP request to signup of user: {}'.format(e))
+        return 'STATUS_FAIL', 'Sever Not running'
 
     response_json = json.loads(response.content.decode("utf-8"))
     logging.debug('signup_user response result: {}, message: {}'.format(response_json['result'], response_json['message']))
 
-    return response_json['result']
+    return response_json['result'], response_json['message']
     
 
-def login_user(username: str, password: str) -> (str, str):
+def login_user(username: str, password: str, token: str) -> (str, str):
     """
     Send username, password from the client to the server and return if authentication is successful or not
 
     Args:
     - username: The username provided by the user to the client application.
     - password: The password provided by the user to the client application.
+    - token: The unique token provided by the Engineering team
 
     Returns:
     - status ("STATUS_OK" if successful, "STATUS_FAIL" if login is not successful)
@@ -56,7 +59,7 @@ def login_user(username: str, password: str) -> (str, str):
     """
 
     # Create the payload with the username and the password
-    payload = {"username": username, "password": password}
+    payload = {"username": username, "password": password, "token": token}
 
     # Prepare the server url
     server_address = get_server_ip()
@@ -71,7 +74,10 @@ def login_user(username: str, password: str) -> (str, str):
 
     except requests.exceptions.RequestException as e:
         #st.error('Failed in HTTP request to logging user credentials: Check if the server is running')
-        logging.error('Failed in HTTP request to logging user credentials: {}'.format(e))
+        #logging.error('Failed in HTTP request to logging user credentials: {}'.format(e))
+        logging.error('Failed in HTTP request to check is user logged in. Server is Down or not responding!')
+
+        return "STATUS_SERVER_DOWN", None
 
     response_json = json.loads(response.content.decode("utf-8"))
     logging.debug('login_user repsonse result: {}, message: {}'.format(response_json['result'], response_json['message']))
@@ -449,3 +455,90 @@ def log_user_workout(username: str, language: str, workout_dct: dict) -> str:
 
         return "STATUS_SERVER_DOWN"
 
+def get_fitbit_data(username: str, fitbit_access_token: str, activity_type: str, base_date: str, end_date: str) -> list:
+    """
+    Get the fitbit data of the user
+
+    Args:
+    - username: Username of the client
+    - fitbit_access_token: Fitbit access token of the user
+    - activity_type: The activity type. Currently supported:
+      sleep
+      resting heart rate
+    - base_date: The starting date from which data is required
+    - end_date: The ending date till which data is required
+    
+    Returns:
+    - status:
+      "STATUS_OK" if successful in getting fitbit data
+      "STATUS_NOT_LOGGED_IN" if user is not logged in
+      "STATUS_SERVER_DOWN" if server not running
+      "STATUS_FAIL" if failed to get data from fitbit server
+    - fitbit activity data:
+      Fitbit activity data of the user, if query was successful, else None
+    """
+     # Create the payload with the username
+    payload = {"username": username, "fitbit_access_token": fitbit_access_token, "activity_type": activity_type, "base_date": base_date, 'end_date': end_date}
+
+     # Prepare the server url
+    server_address = get_server_ip()
+    url = f"http://{server_address}:5000/get_fitbit_data" 
+
+    # Send the post request to the server
+    try:
+        response = requests.post(url, json=payload)
+        
+        # Check if the request was successful (status code 2xx)
+        response.raise_for_status()
+
+        response_json = json.loads(response.content.decode("utf-8"))
+        logging.debug('log_user_workout response result: {}'.format(response_json['result']))
+
+        return response_json['result'], response_json['fitbit_data']
+    
+    except requests.exceptions.RequestException as e:
+        #st.error('Failed in HTTP request to logging user credentials: Check if the server is running')
+        logging.error('Failed in HTTP request to query_healthbot. Server is Down or not responding!')
+
+        return "STATUS_SERVER_DOWN", None
+    
+def get_user_workout(username: str) -> (str, list):
+    """
+    Get the workout details of the user
+
+    Args:
+    - username: Username of the client
+    
+    Returns:
+    - status:
+      "STATUS_OK" if successful in getting fitbit data
+      "STATUS_NOT_LOGGED_IN" if user is not logged in
+      "STATUS_SERVER_DOWN" if server not running
+      "STATUS_FAIL" if failed to get data from fitbit server
+    - workout data:
+      Workout data details of the user, if query was successful, else None
+    """
+     # Create the payload with the username
+    payload = {"username": username}
+
+     # Prepare the server url
+    server_address = get_server_ip()
+    url = f"http://{server_address}:5000/get_user_workout" 
+
+    # Send the post request to the server
+    try:
+        response = requests.post(url, json=payload)
+        
+        # Check if the request was successful (status code 2xx)
+        response.raise_for_status()
+
+        response_json = json.loads(response.content.decode("utf-8"))
+        logging.debug('log_user_workout response result: {}'.format(response_json['result']))
+
+        return response_json['result'], response_json['workout_details']
+    
+    except requests.exceptions.RequestException as e:
+        #st.error('Failed in HTTP request to logging user credentials: Check if the server is running')
+        logging.error('Failed in HTTP request to get_workout_details. Server is Down or not responding!')
+
+        return "STATUS_SERVER_DOWN", None

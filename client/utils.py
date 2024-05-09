@@ -31,13 +31,8 @@ def load_json_file(filename):
     return config    
 
 def get_server_ip():
-    st.write("IP ADDR: ", st.secrets["ip_addr"])
-
-    # Temporary Hack to deploy to streamlit cloud
-    return st.secrets["ip_addr"]
-
     #Load server IP from the config.json
-    config = load_json_file(filename='config.json')
+    config = load_json_file(filename='config/config.json')
 
     server_address = config['server_ip_address']
     if server_address is None:
@@ -53,7 +48,7 @@ def check_windows_machine():
     return is_win_machine
 
 def get_fitbit_token():
-    config = load_json_file(filename='./pages/fitbit_integration/fitbit.json')
+    config = load_json_file(filename='client/pages/fitbit_integration/fitbit.json')
 
     fitbit_access_token = config['fitbit_access_token']
     if fitbit_access_token is None:
@@ -69,6 +64,8 @@ def get_error_reason(result) -> str:
     elif result == 'STATUS_NO_USER_DETAILS':
         error_reason = 'USER_DETAILS_NOT_AVAILABLE'
     elif result == 'STATUS_INVALID_FIELDS':
-        error_reason = 'GENERIC_ERROR'      
+        error_reason = 'GENERIC_ERROR'
+    elif result == 'STATUS_INVALID_CREDENTIALS':
+        error_reason = 'INVALID_CREDENTIALS'     
     
     return error_reason
