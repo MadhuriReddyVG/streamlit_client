@@ -4,17 +4,16 @@ import logging.config
 import streamlit as st
 
 # Start Display Work in Progress
-def start_display_wip(wip_str):        
+def start_display_wip(msg):        
     # Display "Calculating Heart Age" message during computation
     progress_bar = st.progress(0)
     status_text = st.empty()
     #status_text.text("Calculating Heart Age...")
 
-    md_str = "\"<p style='text-align:center; font-size:24px; font-weight:bold;'>" + wip_str + "...</p>\""
     # Styling for the message
     status_text.markdown(
-            md_str,
-            unsafe_allow_html=True
+                f"<p style='text-align:center; font-size:24px; font-weight:bold;'>{msg}</p>",
+                unsafe_allow_html=True
     )
 
     return progress_bar, status_text
@@ -31,9 +30,6 @@ def load_json_file(filename):
     return config    
 
 def get_server_ip():
-    #st.write("IP ADDR: ", st.secrets["ip_addr"])
-
-    # Temporary Hack to deploy to streamlit cloud
     return st.secrets["ip_addr"]
 
     #Load server IP from the config.json
