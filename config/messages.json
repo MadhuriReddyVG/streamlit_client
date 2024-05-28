@@ -1,11 +1,21 @@
 {
-        "TITLE_MESSAGES": 
+        "CALCULATE_CVD_PAGE": 
         {
-            "CALCULATE_CVD_PAGE":
+            "TITLE":
                 {
                     "English": "Heart Risk Score Calculator",
                     "Deutsch": "Rechner für den Herzrisiko-Score"
 
+                },
+            "RISK_BUTTON_MSG":
+                {
+                    "English": "Calculate Risk",
+                    "Deutsch": "Risiko berechnen"
+                },
+            "CALCULATING_CVD_RISK":
+                {
+                    "English": "Calculating Heart Age...",
+                    "Deutsch": "Berechnung des Herzalters..."
                 }           
         },
         "MY_DETAILS_PAGE":
